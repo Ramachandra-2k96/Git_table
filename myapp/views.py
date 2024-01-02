@@ -39,7 +39,7 @@ def random1(request):    # Random calender
             list1.append([days[i][0],"hsl(110, 100%, 70%)",days[i][1]])
         else:
             list1.append([days[i][0],"rgb(220, 220, 220)",days[i][1]])
-    return render(request,'index.html',{"param1":weeks,"param2":months,"param3":list1})
+    return render(request,'myapp/home.html',{"param1":weeks,"param2":months,"param3":list1})
 
 def home(request,file):
     weeks = ['', 'Mon', '', 'Wed', '', 'Fri', '']

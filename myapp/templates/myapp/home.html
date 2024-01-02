@@ -1,0 +1,196 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{param5}}</title>
+</head>
+<style>
+    table{
+        border: 1px solid black;
+        border-radius: 5px;
+        box-shadow: 0px 0px 10px black;
+        padding: 25px;
+    }
+    td{
+        border:0px solid rgb(255, 255, 255);
+        min-width: 12px;
+        height: 12px;
+        max-width:12px;
+        background-color:#EBEDF0;
+        border-radius: 2px;
+    }
+    td:hover {
+        background-color: black;
+    }
+    th{
+        font-size: small;
+        vertical-align: bottom;
+    }
+    #none{
+        background-color: white;
+        color: rgb(124, 122, 122);
+        padding-left: 12px;
+        font-size: 13px;
+    }
+    #additional-info {
+        display: none;
+        position: absolute;
+        background-color: rgba(0, 0, 0, 0.8);
+        color: white;
+        padding: 5px;
+        border-radius: 3px;
+        z-index: 1;
+    }
+    
+</style>
+<body>
+    <table width=160 height=150>
+        <thead>
+            <tr>
+                <th></th>
+                <th colspan="1">{{param2.11}}</th>
+                {% for W in param2 %}
+                    {% if forloop.counter0|divisibleby:4%}
+                        <th colspan="5" width=80>{{W}}</th>
+                    {% else  %}
+                        <th colspan="4" width=80>{{W}}</th>
+                    {% endif %}
+                {% endfor %}
+            </tr>
+        </thead>
+        <tr>
+            <th>{{param1.0}}</th>
+            {% for i in param3 %}
+                {% if i.2 == "Sun" %}
+                    <td style="background-color: {{i.1}};" data-info="{{i.0}}{{param4}}{{i.3}}"><div id="additional-info"></div>
+                    </td>
+                {% endif %}
+            {% endfor %}
+        </tr>
+        <tr>
+            <th>{{param1.1}}</th>
+            {% for i in param3 %}
+                {% if i.2 == "Mon" %}
+                <td style="background-color: {{i.1}};" data-info="{{i.0}}{{param4}}{{i.3}}"><div id="additional-info"></div>
+                {% endif %}
+            {% endfor %}
+
+        </tr>
+        <tr>
+            <th>{{param1.2}}</th>
+            {% for i in param3 %}
+                {% if i.2 == "Tue" %}
+                <td style="background-color: {{i.1}};" data-info="{{i.0}}{{param4}}{{i.3}}"><div id="additional-info"></div>
+                {% endif %}
+            {% endfor %}
+        </tr>
+        <tr>
+            <th>{{param1.3}}</th>
+            {% for i in param3 %}
+                {% if i.2 == "Wed" %}
+                <td style="background-color: {{i.1}};" data-info="{{i.0}}{{param4}}{{i.3}}"><div id="additional-info"></div>
+                {% endif %}
+            {% endfor %}
+        </tr>
+        <tr>
+            <th>{{param1.4}}</th>
+            {% for i in param3 %}
+                {% if i.2 == "Thu" %}
+                <td style="background-color: {{i.1}};" data-info="{{i.0}}{{param4}}{{i.3}}"><div id="additional-info"></div>
+                {% endif %}
+            {% endfor %}
+        </tr>
+        <tr>
+            <th>{{param1.5}}</th>
+            {% for i in param3 %}
+                {% if i.2 == "Fri" %}
+                <td style="background-color: {{i.1}};" data-info="{{i.0}}{{param4}}{{i.3}}"><div id="additional-info"></div>
+                {% endif %}
+            {% endfor %}
+        </tr>
+        <tr>
+            <th>{{param1.6}}</th>
+            {% for i in param3 %}
+                {% if i.2 == "Sat" %}
+                <td style="background-color: {{i.1}};" data-info="{{i.0}}{{param4}}{{i.3}}"><div id="additional-info"></div>
+                {% endif %}
+            {% endfor %}
+        </tr>
+        <tr>
+            <td id="none"></td>
+        </tr>
+        <tr style="position: relative;">
+            <td id="none" colspan="13">{{param6}}
+                <td colspan="25" id="none"></td>
+                <td id="none" colspan="3">Less
+                <td></td>
+                <td style="background-color: #9BE9AB;"></td>
+                <td style="background-color: #40C463;"></td>
+                <td style="background-color: #30A14E;"></td>
+                <td style="background-color: #216E39;"></td>
+                <td id="none" colspan="3">more</td>
+            </td>
+            </td>
+            </td>
+        </tr>
+    </table>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            var tdElements = document.querySelectorAll('td[data-info]');
+            var infoDiv = document.getElementById('additional-info');
+    
+            tdElements.forEach(function (td) {
+                td.addEventListener('mouseenter', function (event) {
+                    var info = this.getAttribute('data-info');
+                    showInfoTooltip(event, info);
+                });
+    
+                td.addEventListener('mousemove', function (event) {
+                    if (infoDiv.style.display === 'block') {
+                        moveInfoTooltip(event);
+                    }
+                });
+    
+                td.addEventListener('mouseleave', function () {
+                    hideInfoTooltip();
+                });
+            });
+    
+            function showInfoTooltip(event, info) {
+                infoDiv.innerHTML = info;
+                infoDiv.style.display = 'block';
+    
+                // Initial position
+                infoDiv.style.left = event.pageX + 'px';
+                infoDiv.style.top = event.pageY + 'px';
+    
+                // Move the tooltip to the correct position
+                moveInfoTooltip(event);
+            }
+    
+            function moveInfoTooltip(event) {
+                // Adjust position based on the size of the tooltip
+                var offsetX = 10;
+                var offsetY = 10;
+    
+                // Calculate new position
+                var newLeft = event.pageX + offsetX;
+                var newTop = event.pageY + offsetY;
+    
+                // Update the position of the tooltip
+                infoDiv.style.left = newLeft + 'px';
+                infoDiv.style.top = newTop + 'px';
+            }
+    
+            function hideInfoTooltip() {
+                infoDiv.innerHTML = '';
+                infoDiv.style.display = 'none';
+            }
+        });
+    </script>
+    
+        
+</body>
+</html>
